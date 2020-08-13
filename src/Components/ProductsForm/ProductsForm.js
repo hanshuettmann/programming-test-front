@@ -11,7 +11,7 @@ const reducer = (state, action) => {
     }
 }
 
-const ProductsForm = () => {
+const ProductsForm = ({ loadProduct }) => {
     const [state, dispatch] = useReducer(reducer, {
         data: {
             name: '',
@@ -50,13 +50,13 @@ const ProductsForm = () => {
         if (!isValid) {
             alert(errorMessage);
         } else {
-            loadProduct();
+            loadProduct(state.data);
         }
     }
 
-    const loadProduct = () => {
-        console.log(state.data);
-    }
+    // const loadProduct = () => {
+    //     console.log(state.data);
+    // }
 
     const inputChange = (e) => {
         let name = e.target.name;

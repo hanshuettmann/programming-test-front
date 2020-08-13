@@ -4,7 +4,7 @@ import HansPicture from './../../Resources/HansPicture.jpg';
 
 const FlipCard = () => {
     return (    
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mb-5'>
                 <div className="col-12 col-sm-6 d-flex flex-column align-items-center">
                     <div className="flip-card">
                         <div className="flip-card-inner">
