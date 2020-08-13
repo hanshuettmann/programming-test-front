@@ -18,7 +18,7 @@ const ProductsTable = ({ products }) => {
                     <tbody>
                         {products.map((product, index) => {
                             return (
-                                <tr>
+                                <tr key={product._id}>
                                     <th scope='row'>{index + 1}</th>
                                     <td>{product.name}</td>
                                     <td>{product.brand}</td>
@@ -38,6 +38,7 @@ const ProductsTable = ({ products }) => {
 ProductsTable.defaultProps = {
     products: [
         {
+            _id: 'asidh1o3o123j',
             name: 'Queso untable',
             brand: 'La Serenísima',
             price: 70.0,
@@ -45,6 +46,7 @@ ProductsTable.defaultProps = {
             dueDate: '25/04/1994'
         },
         {
+            _id: 'asidh1o3o123asdaj',
             name: 'Leche descremada',
             brand: 'La Serenísima',
             price: 50.0,
@@ -52,6 +54,7 @@ ProductsTable.defaultProps = {
             dueDate: '25/04/1994'
         },
         {
+            _id: 'asidh1o3Dadsad',
             name: 'Cerveza Negra',
             brand: 'Salta',
             price: 110.0,
@@ -59,6 +62,7 @@ ProductsTable.defaultProps = {
             dueDate: '25/04/1994'
         },
         {
+            _id: 'asidh1o3o2as31123j',
             name: 'Alfajor negro',
             brand: 'Jorgito',
             price: 35.0,
