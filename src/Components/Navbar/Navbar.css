@@ -9,3 +9,7 @@
     user-select: none;
     cursor: pointer;
 }
+
+.navbar-nav a {
+    text-decoration: none;
+}

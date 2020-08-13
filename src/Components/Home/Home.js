@@ -3,7 +3,7 @@ import FlipCard from '../FlipCard/FlipCard';
 
 const Home = () => {
     return (
-        <div className='container'>
+        <div className='container animation-show'>
             <div className='row justify-content-center mt-4 mb-4'>
                 <div className='col-12 col-md-8'>
                     <h1>Integra Media</h1>

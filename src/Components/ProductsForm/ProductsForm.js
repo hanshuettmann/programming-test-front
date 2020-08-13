@@ -84,7 +84,6 @@ const ProductsForm = ({ loadProduct }) => {
                                     name='name'
                                     onChange={inputChange}
                                     value={state.data.name}
-                                    required
                                 />
                             </div>
 

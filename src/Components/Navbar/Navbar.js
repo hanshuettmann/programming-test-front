@@ -1,6 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 import Logo from './../../Resources/IntegraLogo.png';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     return (
@@ -18,11 +19,11 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <div className="navbar-nav">
-                    <div className="nav-item nav-link">Inicio<span className="sr-only">(current)</span></div>
-                    <div className="nav-item nav-link">Ventas</div>
-                    <div className="nav-item nav-link">Productos</div>
-                    <div className="nav-item nav-link">Clientes</div>
-                    <div className="nav-item nav-link">Empleados</div>
+                    <NavLink exact to='/'><div className="nav-item nav-link navLink-item">Inicio<span className="sr-only">(current)</span></div></NavLink>
+                    <NavLink to='/sales'><div className="nav-item nav-link">Ventas</div></NavLink>
+                    <NavLink to='/products'><div className="nav-item nav-link">Productos</div></NavLink>
+                    <NavLink to='/clients'><div className="nav-item nav-link">Clientes</div></NavLink>
+                    <NavLink to='/employees'><div className="nav-item nav-link">Empleados</div></NavLink>
                 </div>
             </div>
         </nav>
