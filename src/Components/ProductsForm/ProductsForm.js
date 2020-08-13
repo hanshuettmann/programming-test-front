@@ -26,7 +26,7 @@ const ProductsForm = () => {
         e.preventDefault();
         let errorMessage;
         let isValid = true;
-        
+
         if (state.data.name.length < 4) {
             errorMessage = 'Debes ingresar un nombre de al menos 4 caracteres.'
             isValid = false;
@@ -69,6 +69,9 @@ const ProductsForm = () => {
     return (
         <div className='container mb-5 text-left'>
             <div className='row justify-content-center'>
+                <div className='col-12 col-md-10 text-left mb-3'>
+                    <h1>Cargar un producto</h1>
+                </div>
                 <div className='col-12 col-md-10'>
                     <form>
                         <div className='form-row'>
