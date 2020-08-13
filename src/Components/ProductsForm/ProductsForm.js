@@ -22,8 +22,39 @@ const ProductsForm = () => {
         }
     });
 
-    const loadProduct = (e) => {
+    const validateInputs = (e) => {
         e.preventDefault();
+        let errorMessage;
+        let isValid = true;
+        
+        if (state.data.name.length < 4) {
+            errorMessage = 'Debes ingresar un nombre de al menos 4 caracteres.'
+            isValid = false;
+        }
+        if (state.data.brand.length <= 0) {
+            errorMessage = 'Debes ingresar una marca.'
+            isValid = false;
+        }
+        if (state.data.price === '' || parseFloat(state.data.price) === 0) {
+            errorMessage = 'Debes ingresar un precio distinto de 0.'
+            isValid = false;
+        }
+        if (state.data.dueDate === '') {
+            errorMessage = 'Debes ingresar una fecha de vencimiento.'
+            isValid = false;
+        }
+        if (state.data.provider === '') {
+            errorMessage = 'Debes seleccionar un proveedor de la lista.'
+            isValid = false;
+        }
+        if (!isValid) {
+            alert(errorMessage);
+        } else {
+            loadProduct();
+        }
+    }
+
+    const loadProduct = () => {
         console.log(state.data);
     }
 
@@ -39,7 +70,7 @@ const ProductsForm = () => {
         <div className='container mb-5 text-left'>
             <div className='row justify-content-center'>
                 <div className='col-12 col-md-10'>
-                    <form className="was-validated">
+                    <form>
                         <div className='form-row'>
                             <div className='form-group col-md-6'>
                                 <label htmlFor='inputProductName'>Nombre</label>
@@ -50,6 +81,7 @@ const ProductsForm = () => {
                                     name='name'
                                     onChange={inputChange}
                                     value={state.data.name}
+                                    required
                                 />
                             </div>
 
@@ -105,7 +137,7 @@ const ProductsForm = () => {
                             </div>
                         </div>
                         <button
-                            onClick={loadProduct}
+                            onClick={validateInputs}
                             className='btn btn-secondary'
                         >
                             Cargar</button>
