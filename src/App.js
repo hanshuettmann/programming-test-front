@@ -4,6 +4,8 @@ import Navbar from './Components/Navbar/Navbar';
 import Products from './Components/Products/Products';
 import Home from './Components/Home/Home';
 import Clients from './Components/Clients/Clients';
+import Employees from './Components/Employees/Employees';
+import Sales from './Components/Sales/Sales';
 import {
   BrowserRouter,
   Route
@@ -22,6 +24,12 @@ const App = () => {
         </Route>
         <Route path='/clients'>
           <Clients />
+        </Route>
+        <Route path='/employees'>
+          <Employees />
+        </Route>
+        <Route path='/sales'>
+          <Sales />
         </Route>
       </BrowserRouter>
     </div>

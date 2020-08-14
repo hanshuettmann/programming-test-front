@@ -3,6 +3,9 @@ import React from 'react';
 const ProductsTable = ({ products }) => {
     return (
         <div className='container'>
+            <div className='col-12 col-md-10 text-left mb-3'>
+                <h1>Productos disponibles</h1>
+            </div>
             <div className='table-responsive'>
                 <table className='table table-bordered'>
                     <thead className='thead-light'>
@@ -22,7 +25,7 @@ const ProductsTable = ({ products }) => {
                                     <th scope='row'>{index + 1}</th>
                                     <td>{product.name}</td>
                                     <td>{product.brand}</td>
-                                    <td>{product.price}</td>
+                                    <td>{'$ ' + product.price}</td>
                                     <td>{product.provider}</td>
                                     <td>{product.dueDate}</td>
                                 </tr>
