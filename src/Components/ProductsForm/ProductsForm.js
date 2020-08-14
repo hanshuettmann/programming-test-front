@@ -54,10 +54,6 @@ const ProductsForm = ({ loadProduct }) => {
         }
     }
 
-    // const loadProduct = () => {
-    //     console.log(state.data);
-    // }
-
     const inputChange = (e) => {
         let name = e.target.name;
         let newData = state.data;
@@ -148,6 +144,12 @@ const ProductsForm = ({ loadProduct }) => {
             </div>
         </div>
     )
+}
+
+ProductsForm.defaultProps = {
+    loadProduct: (data) => {
+        console.log(data)
+    }
 }
 
 export default ProductsForm;
