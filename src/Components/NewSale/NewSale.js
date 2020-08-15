@@ -16,7 +16,8 @@ const reducer = (state, action) => {
         case 'SET_PRODUCT':
             return {
                 ...state,
-                product: action.data
+                product: action.data,
+                totalAmount: action.data.price * state.quantity
             }
 
         case 'SET_EMPLOYEE':
@@ -28,7 +29,8 @@ const reducer = (state, action) => {
         case 'SET_QUANTITY':
             return {
                 ...state,
-                quantity: action.data
+                quantity: action.data,
+                totalAmount: action.data * state.product.price
             }
 
         case 'SET_AMOUNT':
@@ -88,11 +90,13 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
 
     const inputQuantityOnChange = (e) => {
         const inputValue = e.target.value;
-        if (inputValue.length === 0) {
-            dispatch({ type: 'SET_QUANTITY', data: '' });
-        } else {
-            const quantity = isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value);
-            dispatch({ type: 'SET_QUANTITY', data: quantity });
+        if (inputValue > 0 || inputValue === '') {
+            if (inputValue.length === 0) {
+                dispatch({ type: 'SET_QUANTITY', data: '' });
+            } else {
+                const quantity = isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value);
+                dispatch({ type: 'SET_QUANTITY', data: quantity });
+            }
         }
     }
 
@@ -105,13 +109,36 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
 
     const addSale = (e) => {
         e.preventDefault();
-        loadSale(state);
+        let errorMessage;
+        let isValid = true;
+
+        if (Object.keys(state.employee).length === 0) {
+            errorMessage = 'Debes seleccionar un empleado de la lista.'
+            isValid = false;
+        }
+        if (state.product.price === 0) {
+            errorMessage = 'Debes seleccionar un producto de la lista.'
+            isValid = false;
+        }
+        if (Object.keys(state.client).length === 0) {
+            errorMessage = 'Debes seleccionar un cliente de la lista.'
+            isValid = false;
+        }
+        if (state.quantity === 0 || state.quantity === '') {
+            errorMessage = 'Debes ingresar una cantidad distinta de 0.'
+            isValid = false;
+        }
+        if (!isValid) {
+            alert(errorMessage);
+        } else {
+            loadSale(state);
+        }
     }
 
     return (
-        <div className='container'>
             <div className='row justify-content-center'>
                 <div className='col-12 col-md-10 text-left mb-3'>
+                    <h1 className='mb-3'>Registrar venta</h1>
                     <form>
                         <div className='form-row'>
                             <div className='form-group col-md-6'>
@@ -121,7 +148,9 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
                                     className='form-control'
                                     name='employee'
                                     onChange={inputEmployeeOnChange}
+                                    defaultValue='0'
                                 >
+                                    <option value='0' disabled>Seleccionar empleado...</option>
                                     {employees.map((employee) => {
                                         return (
                                             <option
@@ -140,7 +169,9 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
                                     className='form-control'
                                     name='client'
                                     onChange={inputClientOnChange}
+                                    defaultValue='0'
                                 >
+                                    <option value='0' disabled>Seleccionar cliente...</option>
                                     {clients.map((client) => {
                                         return (
                                             <option
@@ -204,7 +235,7 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
                                     className='form-control'
                                     id='inputTotalAmount'
                                     name='totalAmount'
-                                    value={'$ ' + state.quantity * state.product.price}
+                                    value={'$ ' + state.totalAmount}
                                     onChange={inputAmountOnChange}
                                     disabled
                                 />
@@ -214,11 +245,10 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
                             className='btn btn-secondary'
                             onClick={addSale}
                         >
-                            Agregar al carrito</button>
+                            Agregar compra</button>
                     </form>
                 </div>
             </div>
-        </div>
     )
 }
 

@@ -1,0 +1,16 @@
+.table-alignment td {
+    vertical-align: middle;
+}
+
+.table-alignment th {
+    vertical-align: middle;
+}
+
+.button-empty {
+    padding: 0 0.5em;
+}
+
+.table-height {
+    height: 100%;
+    max-height: 70vh;
+}
