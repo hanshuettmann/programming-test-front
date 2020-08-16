@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import SalesCart from '../SalesCart/SalesCart';
 import NewSale from '../NewSale/NewSale';
 
@@ -35,14 +35,20 @@ const Sales = () => {
         totalAmount: 0
     });
 
+    useEffect(() => {
+        let add = 0;
+        for (let i = 0; i < state.sales.length; i++) {
+            add += state.sales[i].totalAmount
+        }
+        dispatch({ type: 'SET_TOTAL', data: add });
+    }, [state.sales]);
+
     const handlerNewSale = (sale) => {
         dispatch({ type: 'SET_SALE', data: sale });
-        handlerTotalAmount(sale.totalAmount, false);
     }
 
     const handlerDeleteAll = () => {
         dispatch({ type: 'DELETE_ALL' });
-        handlerTotalAmount(0, false);
     }
 
     const handlerConfirmSale = () => {
@@ -50,37 +56,13 @@ const Sales = () => {
         console.log(state.sales);
     }
 
-    const handlerTotalAmount = (lastValue, deleteOne) => {
-        let total = 0;
-        for (let i = 0; i < state.sales.length; i++) {
-            total += state.sales[i].totalAmount
-        }
-        if (lastValue === 0) {
-            total = 0;
-        } else if (deleteOne) {
-            total = lastValue
-        } else {
-            total = total + lastValue
-        }
-        console.log(total);
-        dispatch({ type: 'SET_TOTAL', data: total });
-    }
-
     const handlerDeleteOne = (e) => {
         const index = parseFloat(e.target.dataset.index);
         let sales = state.sales;
         let filteredSales = sales.filter((sale, indexSale) => {
-            if (indexSale !== index) {
-                return sale
-            }
+            return indexSale !== index
         })
         dispatch({ type: 'DELETE_ONE', data: filteredSales });
-        
-        let total = 0;
-        for (let i = 0; i < filteredSales.length; i++) {
-            total += filteredSales[i].totalAmount
-        }
-        handlerTotalAmount(total, true);
     }
 
     return (
