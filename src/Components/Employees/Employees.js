@@ -6,7 +6,8 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'SET_EMPLOYEES':
             return {
-                employees: action.data
+                employees: action.data,
+                hasFetch: true
             }
         default:
             return state
@@ -15,7 +16,8 @@ const reducer = (state, action) => {
 
 const Employees = () => {
     const [state, dispatch] = useReducer(reducer, {
-        employees: []
+        employees: [],
+        hasFetch: false
     });
 
     useEffect(() => {
@@ -44,7 +46,10 @@ const Employees = () => {
     return (
         <div className='container mt-3 animation-show'>
             <EmployeesForm loadEmployee={handlerNewEmployee} />
-            <EmployeesTable employees={state.employees} />
+            <EmployeesTable
+                employees={state.employees}
+                hasFetchEmployees={state.hasFetch}
+            />
         </div>
     )
 }

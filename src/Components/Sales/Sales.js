@@ -57,6 +57,11 @@ const reducer = (state, action) => {
                 ...state,
                 isFetch: true
             }
+        case 'SET_SPINNER':
+            return {
+                ...state,
+                hasFetchNewSale: !state.hasFetchNewSale
+            }
         default:
             return state
     }
@@ -71,7 +76,8 @@ const Sales = () => {
         clients: [],
         employees: [],
         products: [],
-        isFetch: false
+        isFetch: false,
+        hasFetchNewSale: true
     });
 
     useEffect(() => {

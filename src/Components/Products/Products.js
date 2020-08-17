@@ -6,7 +6,8 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'SET_PRODUCTS':
             return {
-                products: action.data
+                products: action.data,
+                hasFetch: true
             }
         default:
             return state
@@ -15,12 +16,13 @@ const reducer = (state, action) => {
 
 const Products = () => {
     const [state, dispatch] = useReducer(reducer, {
-        products: []
+        products: [],
+        hasFetch: false
     });
 
     useEffect(() => {
         fetchProducts();
-    }, [])
+    }, []);
 
     const handlerNewProduct = async (product) => {
         const response = await fetch('http://localhost:3000/products', {
@@ -44,7 +46,10 @@ const Products = () => {
     return (
         <div className='container mt-3 animation-show'>
             <ProductsForm loadProduct={handlerNewProduct} />
-            <ProductsTable products={state.products} />
+            <ProductsTable
+                products={state.products}
+                hasFetchProducts={state.hasFetch}
+            />
         </div>
     )
 }

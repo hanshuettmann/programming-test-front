@@ -1,6 +1,7 @@
 import React from 'react';
+import TableSpinner from '../TableSpinner/TableSpinner';
 
-const EmployeesTable = ({ employees }) => {
+const EmployeesTable = ({ employees, hasFetchEmployees }) => {
     return (
         <div className='row justify-content-center'>
             <div className='col-12 col-md-10 text-left mb-3'>
@@ -19,7 +20,9 @@ const EmployeesTable = ({ employees }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {employees.length > 0 ?
+                        {!hasFetchEmployees ?
+                        <TableSpinner /> :
+                        employees.length > 0 ?
                             employees.map((employee, index) => {
                                 return (
                                     <tr
@@ -82,7 +85,8 @@ EmployeesTable.defaultProps = {
             birthDate: '04/02/1955',
             idNumber: '321456'
         }
-    ]
+    ],
+    hasFetchEmployees: false
 }
 
 export default EmployeesTable;

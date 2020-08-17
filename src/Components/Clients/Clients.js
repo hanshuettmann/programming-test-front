@@ -6,7 +6,8 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'SET_CLIENTS':
             return {
-                clients: action.data
+                clients: action.data,
+                hasFetch: true
             }
         default:
             return state
@@ -15,7 +16,8 @@ const reducer = (state, action) => {
 
 const Clients = () => {
     const [state, dispatch] = useReducer(reducer, {
-        clients: []
+        clients: [],
+        hasFetch: false
     });
 
     useEffect(() => {
@@ -44,7 +46,10 @@ const Clients = () => {
     return (
         <div className='container mt-3 animation-show'>
             <ClientsForm loadClient={handlerNewClient} />
-            <ClientsTable clients={state.clients} />
+            <ClientsTable
+                clients={state.clients}
+                hasFetchClients={state.hasFetch}
+            />
         </div>
     )
 }

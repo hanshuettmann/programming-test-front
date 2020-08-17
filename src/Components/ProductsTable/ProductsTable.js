@@ -1,6 +1,7 @@
 import React from 'react';
+import TableSpinner from '../TableSpinner/TableSpinner';
 
-const ProductsTable = ({ products }) => {
+const ProductsTable = ({ products, hasFetchProducts }) => {
     return (
         <div className='row justify-content-center'>
             <div className='col-12 col-md-10 text-left mb-3'>
@@ -19,27 +20,29 @@ const ProductsTable = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length > 0 ?
-                            products.map((product, index) => {
-                                return (
-                                    <tr
-                                        key={product._id}
-                                        className='animation-show'
-                                    >
-                                        <th scope='row'>{index + 1}</th>
-                                        <td>{product.name}</td>
-                                        <td>{product.brand}</td>
-                                        <td>{'$ ' + product.price}</td>
-                                        <td>{product.provider}</td>
-                                        <td>{product.dueDate}</td>
-                                    </tr>
-                                )
-                            })
-                            : <tr className='animation-show'>
-                                <td colSpan='7'>
-                                    Todavía no has agregado ningún producto...
+                        {!hasFetchProducts ?
+                            <TableSpinner /> :
+                            products.length > 0 ?
+                                products.map((product, index) => {
+                                    return (
+                                        <tr
+                                            key={product._id}
+                                            className='animation-show'
+                                        >
+                                            <th scope='row'>{index + 1}</th>
+                                            <td>{product.name}</td>
+                                            <td>{product.brand}</td>
+                                            <td>{'$ ' + product.price}</td>
+                                            <td>{product.provider}</td>
+                                            <td>{product.dueDate}</td>
+                                        </tr>
+                                    )
+                                })
+                                : <tr className='animation-show'>
+                                    <td colSpan='7'>
+                                        Todavía no has agregado ningún producto...
                             </td>
-                            </tr>
+                                </tr>
                         }
                     </tbody>
                 </table>
@@ -82,7 +85,8 @@ ProductsTable.defaultProps = {
             provider: 'Pedro',
             dueDate: '25/04/1994'
         }
-    ]
+    ],
+    hasFetchProducts: false
 }
 
 export default ProductsTable;

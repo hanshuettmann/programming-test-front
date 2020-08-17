@@ -1,6 +1,7 @@
 import React from 'react';
+import TableSpinner from '../TableSpinner/TableSpinner';
 
-const ClientsTable = ({ clients }) => {
+const ClientsTable = ({ clients, hasFetchClients }) => {
     return (
         <div className='row justify-content-center'>
             <div className='col-12 col-md-10 text-left mb-3'>
@@ -19,27 +20,29 @@ const ClientsTable = ({ clients }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {clients.length > 0 ?
-                            clients.map((client, index) => {
-                                return (
-                                    <tr
-                                        key={client._id}
-                                        className='animation-show'
-                                    >
-                                        <th scope='row'>{index + 1}</th>
-                                        <td>{client.name}</td>
-                                        <td>{client.lastname}</td>
-                                        <td>{client.dni}</td>
-                                        <td>{client.birthDate}</td>
-                                        <td>{client.creditCard}</td>
-                                    </tr>
-                                )
-                            })
-                            : <tr className='animation-show'>
-                                <td colSpan='7'>
-                                    Todavía no has agregado ningún cliente...
+                        {!hasFetchClients ?
+                            <TableSpinner />
+                            : clients.length > 0 ?
+                                clients.map((client, index) => {
+                                    return (
+                                        <tr
+                                            key={client._id}
+                                            className='animation-show'
+                                        >
+                                            <th scope='row'>{index + 1}</th>
+                                            <td>{client.name}</td>
+                                            <td>{client.lastname}</td>
+                                            <td>{client.dni}</td>
+                                            <td>{client.birthDate}</td>
+                                            <td>{client.creditCard}</td>
+                                        </tr>
+                                    )
+                                })
+                                : <tr className='animation-show'>
+                                    <td colSpan='7'>
+                                        Todavía no has agregado ningún cliente...
                                 </td>
-                            </tr>
+                                </tr>
                         }
                     </tbody>
                 </table>
@@ -82,7 +85,8 @@ ClientsTable.defaultProps = {
             birthDate: '04/02/1955',
             creditCard: '4001858525254712'
         }
-    ]
+    ],
+    hasFetchClients: false
 }
 
 export default ClientsTable;
