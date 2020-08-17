@@ -1,4 +1,7 @@
-import React, { useReducer, useEffect } from 'react';
+import React, {
+    useReducer,
+    useEffect
+} from 'react';
 import SalesCart from '../SalesCart/SalesCart';
 import NewSale from '../NewSale/NewSale';
 
@@ -7,9 +10,15 @@ const reducer = (state, action) => {
         case 'SET_SALE':
             return {
                 ...state,
+                clientSelected: action.data.client,
+                employeeSelected: action.data.employee,
                 sales: [
                     ...state.sales,
-                    action.data
+                    {
+                        product: action.data.product,
+                        quantity: action.data.quantity,
+                        totalAmount: action.data.totalAmount
+                    }
                 ]
             }
         case 'DELETE_ALL':
@@ -54,6 +63,8 @@ const reducer = (state, action) => {
 
 const Sales = () => {
     const [state, dispatch] = useReducer(reducer, {
+        clientSelected: {},
+        employeeSelected: {},
         sales: [],
         totalAmount: 0,
         clients: [],
@@ -67,7 +78,7 @@ const Sales = () => {
             fetchClients();
             fetchProducts();
             fetchEmployees();
-            console.log('fire!');
+
             dispatch({ type: 'SET_FETCH' });
         }
 
@@ -90,31 +101,35 @@ const Sales = () => {
         dispatch({ type: 'DELETE_ALL' });
     }
 
-    const handlerConfirmSale = () => {
+    const handlerConfirmSale = async () => {
         if (window.confirm('Estás seguro que deseas confirmar la compra?')) {
-            // const sale = {
-            //     employee: {
-            //         name: state.sales.employee.name,
-            //         lastname: state.sales.employee.lastname,
-            //         idNumber: state.sales.employee.idNumber
-            //     },
-            //     client: {
-            //         name: state.sales.client.name,
-            //         lastname: state.sales.client.lastname,
-            //     }
-            // }
-            console.log(state.sales);
+            const sale = {
+                employee: {
+                    name: state.employeeSelected.name,
+                    lastname: state.employeeSelected.lastname,
+                    idNumber: state.employeeSelected.idNumber
+                },
+                client: {
+                    name: state.clientSelected.name,
+                    lastname: state.clientSelected.lastname,
+                },
+                products: addProducts()
+            }
+            postSale(sale);
+            handlerDeleteAll();
         }
-        
-        // const response = await fetch('http://localhost:3000/products', {
-        //     method: 'POST',
-        //     body: JSON.stringify(product),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
-        // const res = await response.json();
-        // console.log(res);
+    }
+
+    const addProducts = () => {
+        let products = [];
+        products = state.sales.map((item) => {
+            return {
+                name: item.product.name,
+                price: item.product.price,
+                quantity: item.quantity
+            }
+        })
+        return products;
     }
 
     const handlerDeleteOne = (e) => {
@@ -142,6 +157,18 @@ const Sales = () => {
         fetch('http://localhost:3000/employees')
             .then(res => res.json())
             .then(response => dispatch({ type: 'SET_EMPLOYEES', data: response }));
+    }
+
+    const postSale = async (sale) => {
+        const response = await fetch('http://localhost:3000/sales', {
+            method: 'POST',
+            body: JSON.stringify(sale),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const res = await response.json();
+        console.log(res);
     }
 
     return (

@@ -34,11 +34,10 @@ const SalesCart = ({ sales, deleteOne, deleteAll, confirmSale, totalAmount }) =>
                     <thead className='thead-light'>
                         <tr>
                             <th scope='col'></th>
-                            <th scope='col'>Cliente</th>
-                            <th scope='col'>Empleado</th>
                             <th scope='col'>Producto</th>
+                            <th scope='col'>Marca</th>
                             <th scope='col'>Cantidad</th>
-                            <th scope='col'>Monto</th>
+                            <th scope='col'>Subtotal</th>
                             <th scope='col'></th>
                         </tr>
                     </thead>
@@ -50,9 +49,8 @@ const SalesCart = ({ sales, deleteOne, deleteAll, confirmSale, totalAmount }) =>
                                         className='animation-show table-alignment'
                                     >
                                         <th scope='row'>{index + 1}</th>
-                                        <td>{`${sale.client.name} ${sale.client.lastname}`}</td>
-                                        <td>{sale.employee.name}</td>
                                         <td>{sale.product.name}</td>
+                                        <td>{sale.product.brand}</td>
                                         <td>{sale.quantity}</td>
                                         <td>{'$ ' + sale.totalAmount}</td>
                                         <td>
