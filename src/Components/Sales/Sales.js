@@ -13,16 +13,33 @@ const reducer = (state, action) => {
             }
         case 'DELETE_ALL':
             return {
+                ...state,
                 sales: []
             }
         case 'DELETE_ONE':
             return {
+                ...state,
                 sales: action.data
             }
         case 'SET_TOTAL':
             return {
                 ...state,
                 totalAmount: action.data
+            }
+        case 'SET_CLIENTS':
+            return {
+                ...state,
+                clients: action.data
+            }
+        case 'SET_PRODUCTS':
+            return {
+                ...state,
+                products: action.data
+            }
+        case 'SET_EMPLOYEES':
+            return {
+                ...state,
+                employees: action.data
             }
         default:
             return state
@@ -32,7 +49,10 @@ const reducer = (state, action) => {
 const Sales = () => {
     const [state, dispatch] = useReducer(reducer, {
         sales: [],
-        totalAmount: 0
+        totalAmount: 0,
+        clients: [],
+        employees: [],
+        products: []
     });
 
     useEffect(() => {
@@ -41,6 +61,11 @@ const Sales = () => {
             add += state.sales[i].totalAmount
         }
         dispatch({ type: 'SET_TOTAL', data: add });
+
+        fetchClients();
+        fetchProducts();
+        fetchEmployees();
+
     }, [state.sales]);
 
     const handlerNewSale = (sale) => {
@@ -65,9 +90,32 @@ const Sales = () => {
         dispatch({ type: 'DELETE_ONE', data: filteredSales });
     }
 
+    const fetchClients = () => {
+        fetch('http://localhost:3000/clients')
+            .then(res => res.json())
+            .then(response => dispatch({ type: 'SET_CLIENTS', data: response }));
+    }
+
+    const fetchProducts = () => {
+        fetch('http://localhost:3000/products')
+            .then(res => res.json())
+            .then(response => dispatch({ type: 'SET_PRODUCTS', data: response }));
+    }
+
+    const fetchEmployees = () => {
+        fetch('http://localhost:3000/employees')
+            .then(res => res.json())
+            .then(response => dispatch({ type: 'SET_EMPLOYEES', data: response }));
+    }
+
     return (
         <div className='container mt-3 animation-show'>
-            <NewSale loadSale={handlerNewSale} />
+            <NewSale
+                loadSale={handlerNewSale}
+                employees={state.employees}
+                clients={state.clients}
+                products={state.products}
+            />
             <SalesCart
                 sales={state.sales}
                 deleteAll={handlerDeleteAll}

@@ -18,7 +18,7 @@ const ProductsForm = ({ loadProduct }) => {
             price: '',
             brand: '',
             dueDate: '',
-            provider: ''
+            provider: '0'
         }
     });
 
@@ -43,7 +43,7 @@ const ProductsForm = ({ loadProduct }) => {
             errorMessage = 'Debes ingresar una fecha de vencimiento.'
             isValid = false;
         }
-        if (state.data.provider === '') {
+        if (state.data.provider === '0') {
             errorMessage = 'Debes seleccionar un proveedor de la lista.'
             isValid = false;
         }
@@ -63,12 +63,11 @@ const ProductsForm = ({ loadProduct }) => {
     }
 
     return (
-        <div className='container mb-5 text-left'>
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mb-4'>
                 <div className='col-12 col-md-10 text-left mb-3'>
                     <h1>Cargar un producto</h1>
                 </div>
-                <div className='col-12 col-md-10'>
+                <div className='col-12 col-md-10 text-left'>
                     <form>
                         <div className='form-row'>
                             <div className='form-group col-md-6'>
@@ -127,6 +126,7 @@ const ProductsForm = ({ loadProduct }) => {
                                     onChange={inputChange}
                                     value={state.data.provider}
                                 >
+                                    <option value='0' disabled >Seleccionar proveedor...</option>
                                     <option value='Marcos'>Marcos</option>
                                     <option value='Rodrigo'>Rodrigo</option>
                                     <option value='Carlos'>Carlos</option>
@@ -142,7 +142,6 @@ const ProductsForm = ({ loadProduct }) => {
                     </form>
                 </div>
             </div>
-        </div>
     )
 }
 

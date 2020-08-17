@@ -2,11 +2,11 @@ import React from 'react';
 
 const EmployeesTable = ({ employees }) => {
     return (
-        <div className='container'>
+        <div className='row justify-content-center'>
             <div className='col-12 col-md-10 text-left mb-3'>
                 <h1>Empleados registrados</h1>
             </div>
-            <div className='table-responsive'>
+            <div className='table-responsive col-12 col-md-10 table-height'>
                 <table className='table table-bordered'>
                     <thead className='thead-light'>
                         <tr>
@@ -19,18 +19,25 @@ const EmployeesTable = ({ employees }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {employees.map((employee, index) => {
-                            return (
-                                <tr key={employee._id}>
-                                    <th scope='row'>{index + 1}</th>
-                                    <td>{employee.name}</td>
-                                    <td>{employee.lastname}</td>
-                                    <td>{employee.dni}</td>
-                                    <td>{employee.birthDate}</td>
-                                    <td>{employee.idNumber}</td>
-                                </tr>
-                            )
-                        })}
+                        {employees.length > 0 ?
+                            employees.map((employee, index) => {
+                                return (
+                                    <tr key={employee._id}>
+                                        <th scope='row'>{index + 1}</th>
+                                        <td>{employee.name}</td>
+                                        <td>{employee.lastname}</td>
+                                        <td>{employee.dni}</td>
+                                        <td>{employee.birthDate}</td>
+                                        <td>{employee.idNumber}</td>
+                                    </tr>
+                                )
+                            })
+                            : <tr className='animation-show'>
+                                <td colSpan='7'>
+                                    Todavía no has agregado ningún empleado...
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

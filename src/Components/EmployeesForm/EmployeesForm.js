@@ -68,91 +68,89 @@ const EmployeesForm = ({ loadEmployee }) => {
     }
 
     return (
-        <div className='container mb-5 text-left'>
-            <div className='row justify-content-center'>
-                <div className='col-12 col-md-10 text-left mb-3'>
-                    <h1>Cargar un empleado</h1>
-                </div>
-                <div className='col-12 col-md-10'>
-                    <form>
-                        <div className='form-row'>
-                            <div className='form-group col-md-6'>
-                                <label htmlFor='inputEmployeeName'>Nombre</label>
-                                <input
-                                    type='text'
-                                    className='form-control'
-                                    id='inputEmployeeName'
-                                    name='name'
-                                    onChange={inputChange}
-                                    value={state.data.name}
-                                />
-                            </div>
-                            <div className='form-group col-md-6'>
-                                <label htmlFor='inputEmployeeLastname'>Apellido</label>
-                                <input
-                                    type='text'
-                                    className='form-control'
-                                    id='inputEmployeeLastname'
-                                    name='lastname'
-                                    onChange={inputChange}
-                                    value={state.data.lastname}
-                                />
-                            </div>
+        <div className='row justify-content-center mb-4'>
+            <div className='col-12 col-md-10 text-left mb-3'>
+                <h1>Cargar un empleado</h1>
+            </div>
+            <div className='col-12 col-md-10 text-left'>
+                <form>
+                    <div className='form-row'>
+                        <div className='form-group col-md-6'>
+                            <label htmlFor='inputEmployeeName'>Nombre</label>
+                            <input
+                                type='text'
+                                className='form-control'
+                                id='inputEmployeeName'
+                                name='name'
+                                onChange={inputChange}
+                                value={state.data.name}
+                            />
                         </div>
-                        <div className='form-row'>
-                            <div className='form-group col-md-3'>
-                                <label htmlFor='inputEmployeeDni'>DNI</label>
-                                <input
-                                    type='number'
-                                    className='form-control'
-                                    id='inputEmployeeDni'
-                                    name='dni'
-                                    onChange={inputChange}
-                                    value={state.data.dni}
-                                />
-                            </div>
-                            <div className='form-group col-md-3'>
-                                <label htmlFor='inputEmployeeIdNumber'>ID</label>
-                                <input
-                                    type='number'
-                                    className='form-control'
-                                    id='inputEmployeeIdNumber'
-                                    name='idNumber'
-                                    onChange={inputChange}
-                                    value={state.data.idNumber}
-                                />
-                                <small id="idHelp" className="form-text text-muted">Número de 6 dígitos del seguro.</small>
-                            </div>
-                            <div className='form-group col-md-3'>
-                                <label htmlFor='inputEmployeeBirthDate'>Fecha de nacimiento</label>
-                                <input
-                                    type='date'
-                                    className='form-control'
-                                    id='inputEmployeeBirthDate'
-                                    name='birthDate'
-                                    onChange={inputChange}
-                                    value={state.data.birthDate}
-                                />
-                            </div>
-                            <div className='form-group col-md-3'>
-                                <label htmlFor='inputEmployeeAge'>Edad</label>
-                                <input
-                                    type='number'
-                                    className='form-control'
-                                    id='inputEmployeeAge'
-                                    name='age'
-                                    onChange={inputChange}
-                                    value={state.data.age}
-                                />
-                            </div>
+                        <div className='form-group col-md-6'>
+                            <label htmlFor='inputEmployeeLastname'>Apellido</label>
+                            <input
+                                type='text'
+                                className='form-control'
+                                id='inputEmployeeLastname'
+                                name='lastname'
+                                onChange={inputChange}
+                                value={state.data.lastname}
+                            />
                         </div>
-                        <button
-                            onClick={validateInputs}
-                            className='btn btn-secondary'
-                        >
-                            Cargar</button>
-                    </form>
-                </div>
+                    </div>
+                    <div className='form-row'>
+                        <div className='form-group col-md-3'>
+                            <label htmlFor='inputEmployeeDni'>DNI</label>
+                            <input
+                                type='number'
+                                className='form-control'
+                                id='inputEmployeeDni'
+                                name='dni'
+                                onChange={inputChange}
+                                value={state.data.dni}
+                            />
+                        </div>
+                        <div className='form-group col-md-3'>
+                            <label htmlFor='inputEmployeeIdNumber'>ID</label>
+                            <input
+                                type='number'
+                                className='form-control'
+                                id='inputEmployeeIdNumber'
+                                name='idNumber'
+                                onChange={inputChange}
+                                value={state.data.idNumber}
+                            />
+                            <small id="idHelp" className="form-text text-muted">Número de 6 dígitos del seguro.</small>
+                        </div>
+                        <div className='form-group col-md-3'>
+                            <label htmlFor='inputEmployeeBirthDate'>Fecha de nacimiento</label>
+                            <input
+                                type='date'
+                                className='form-control'
+                                id='inputEmployeeBirthDate'
+                                name='birthDate'
+                                onChange={inputChange}
+                                value={state.data.birthDate}
+                            />
+                        </div>
+                        <div className='form-group col-md-3'>
+                            <label htmlFor='inputEmployeeAge'>Edad</label>
+                            <input
+                                type='number'
+                                className='form-control'
+                                id='inputEmployeeAge'
+                                name='age'
+                                onChange={inputChange}
+                                value={state.data.age}
+                            />
+                        </div>
+                    </div>
+                    <button
+                        onClick={validateInputs}
+                        className='btn btn-secondary'
+                    >
+                        Cargar</button>
+                </form>
             </div>
         </div>
     )

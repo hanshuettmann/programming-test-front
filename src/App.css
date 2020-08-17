@@ -51,3 +51,8 @@
 .animation-show {
   animation: showUp 750ms ease-out;
 }
+
+.table-height {
+  height: 100%;
+  max-height: 70vh;
+}

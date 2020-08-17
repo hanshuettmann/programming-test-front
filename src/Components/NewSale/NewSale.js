@@ -136,7 +136,7 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
     }
 
     return (
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mb-4'>
                 <div className='col-12 col-md-10 text-left mb-3'>
                     <h1 className='mb-3'>Registrar venta</h1>
                     <form>

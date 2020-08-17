@@ -69,12 +69,11 @@ const ClientsForm = ({ loadClient }) => {
 
 
     return (
-        <div className='container mb-5 text-left'>
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mb-4'>
                 <div className='col-12 col-md-10 text-left mb-3'>
                     <h1>Cargar un cliente</h1>
                 </div>
-                <div className='col-12 col-md-10'>
+                <div className='col-12 col-md-10 text-left'>
                     <form>
                         <div className='form-row'>
                             <div className='form-group col-md-6'>
@@ -154,7 +153,6 @@ const ClientsForm = ({ loadClient }) => {
                     </form>
                 </div>
             </div>
-        </div>
     )
 }
 

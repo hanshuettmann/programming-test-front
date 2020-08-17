@@ -2,11 +2,11 @@ import React from 'react';
 
 const ProductsTable = ({ products }) => {
     return (
-        <div className='container'>
+        <div className='row justify-content-center'>
             <div className='col-12 col-md-10 text-left mb-3'>
                 <h1>Productos disponibles</h1>
             </div>
-            <div className='table-responsive'>
+            <div className='table-responsive col-12 col-md-10 table-height'>
                 <table className='table table-bordered'>
                     <thead className='thead-light'>
                         <tr>
@@ -19,18 +19,28 @@ const ProductsTable = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => {
-                            return (
-                                <tr key={product._id}>
-                                    <th scope='row'>{index + 1}</th>
-                                    <td>{product.name}</td>
-                                    <td>{product.brand}</td>
-                                    <td>{'$ ' + product.price}</td>
-                                    <td>{product.provider}</td>
-                                    <td>{product.dueDate}</td>
-                                </tr>
-                            )
-                        })}
+                        {products.length > 0 ?
+                            products.map((product, index) => {
+                                return (
+                                    <tr
+                                        key={product._id}
+                                        className='animation-show'
+                                    >
+                                        <th scope='row'>{index + 1}</th>
+                                        <td>{product.name}</td>
+                                        <td>{product.brand}</td>
+                                        <td>{'$ ' + product.price}</td>
+                                        <td>{product.provider}</td>
+                                        <td>{product.dueDate}</td>
+                                    </tr>
+                                )
+                            })
+                            : <tr className='animation-show'>
+                                <td colSpan='7'>
+                                    Todavía no has agregado ningún producto...
+                            </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

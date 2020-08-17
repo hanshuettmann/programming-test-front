@@ -1,16 +1,50 @@
-import React from 'react';
+import React, { useReducer, useEffect } from 'react';
 import ProductsTable from '../ProductsTable/ProductsTable';
 import ProductsForm from '../ProductsForm/ProductsForm';
 
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_PRODUCTS':
+            return {
+                products: action.data
+            }
+        default:
+            return state
+    }
+}
+
 const Products = () => {
-    const handlerNewProduct = (product) => {
-        console.log(product)
+    const [state, dispatch] = useReducer(reducer, {
+        products: []
+    });
+
+    useEffect(() => {
+        fetchProducts();
+    }, [])
+
+    const handlerNewProduct = async (product) => {
+        const response = await fetch('http://localhost:3000/products', {
+            method: 'POST',
+            body: JSON.stringify(product),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const res = await response.json();
+        console.log(res);
+        fetchProducts();
+    }
+
+    const fetchProducts = () => {
+        fetch('http://localhost:3000/products')
+            .then(res => res.json())
+            .then(response => dispatch({ type: 'SET_PRODUCTS', data: response }));
     }
 
     return (
-        <div className='mt-3 animation-show'>
+        <div className='container mt-3 animation-show'>
             <ProductsForm loadProduct={handlerNewProduct} />
-            <ProductsTable />
+            <ProductsTable products={state.products} />
         </div>
     )
 }
