@@ -38,13 +38,24 @@ const reducer = (state, action) => {
                 ...state,
                 totalAmount: action.data
             }
-
+        case 'BLOCK_SELECTORS':
+            return {
+                ...state,
+                isEmployeeSelected: true,
+                isClientSelected: true
+            }
+        case 'UNBLOCK_SELECTORS':
+            return {
+                ...state,
+                isEmployeeSelected: false,
+                isClientSelected: false
+            }
         default:
             return state
     }
 }
 
-const NewSale = ({ clients, products, employees, loadSale }) => {
+const NewSale = ({ clients, products, employees, loadSale, deleteAll }) => {
     const [state, dispatch] = useReducer(reducer, {
         client: {},
         employee: {},
@@ -52,7 +63,9 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
             price: 0
         },
         quantity: 1,
-        totalAmount: 0
+        totalAmount: 0,
+        isEmployeeSelected: false,
+        isClientSelected: false
     });
 
     const inputClientOnChange = (e) => {
@@ -132,123 +145,143 @@ const NewSale = ({ clients, products, employees, loadSale }) => {
             alert(errorMessage);
         } else {
             loadSale(state);
+            dispatch({ type: 'BLOCK_SELECTORS' });
+        }
+    }
+
+    const unlock = (e) => {
+        e.preventDefault();
+        let message = 'Seguro desea modificar? Se borrarán las compras cargadas.'
+        if (window.confirm(message)) {
+            dispatch({ type: 'UNBLOCK_SELECTORS' });
+            deleteAll();
         }
     }
 
     return (
-            <div className='row justify-content-center mb-4'>
-                <div className='col-12 col-md-10 text-left mb-3'>
-                    <h1 className='mb-3'>Registrar venta</h1>
-                    <form>
-                        <div className='form-row'>
-                            <div className='form-group col-md-6'>
-                                <label htmlFor='inputEmployee'>Empleado</label>
-                                <select
-                                    id='inputEmployee'
-                                    className='form-control'
-                                    name='employee'
-                                    onChange={inputEmployeeOnChange}
-                                    defaultValue='0'
-                                >
-                                    <option value='0' disabled>Seleccionar empleado...</option>
-                                    {employees.map((employee) => {
-                                        return (
-                                            <option
-                                                key={employee._id}
-                                                value={employee._id}
-                                            >
-                                                {`${employee.name} ${employee.lastname}`}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                            <div className='form-group col-md-6'>
-                                <label htmlFor='inputClient'>Cliente</label>
-                                <select
-                                    id='inputClient'
-                                    className='form-control'
-                                    name='client'
-                                    onChange={inputClientOnChange}
-                                    defaultValue='0'
-                                >
-                                    <option value='0' disabled>Seleccionar cliente...</option>
-                                    {clients.map((client) => {
-                                        return (
-                                            <option
-                                                key={client._id}
-                                                value={client._id}
-                                            >
-                                                {`${client.name} ${client.lastname}`}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
+        <div className='row justify-content-center'>
+            <div className='col-12 col-md-10 text-left mb-3'>
+                <h1 className='mb-3'>Registrar venta</h1>
+                <form>
+                    <div className='form-row'>
+                        <div className='form-group col-md-6'>
+                            <label htmlFor='inputEmployee'>Empleado</label>
+                            <select
+                                id='inputEmployee'
+                                className='form-control'
+                                name='employee'
+                                onChange={inputEmployeeOnChange}
+                                defaultValue='0'
+                                disabled={state.isEmployeeSelected ? true : false}
+                            >
+                                <option value='0' disabled>Seleccionar empleado...</option>
+                                {employees.map((employee) => {
+                                    return (
+                                        <option
+                                            key={employee._id}
+                                            value={employee._id}
+                                        >
+                                            {`${employee.name} ${employee.lastname}`}</option>
+                                    )
+                                })}
+                            </select>
                         </div>
-                        <div className='form-row'>
-                            <div className='form-group col-md-6'>
-                                <label htmlFor='inputProduct'>Producto</label>
-                                <select
-                                    id='inputProduct'
-                                    className='form-control'
-                                    name='productName'
-                                    defaultValue='0'
-                                    onChange={inputProductOnChange}
-                                >
-                                    <option value='0' disabled>Seleccionar producto...</option>
-                                    {products.map((product) => {
-                                        return (
-                                            <option
-                                                key={product._id}
-                                                value={product._id}
-                                            >
-                                                {`${product.name}`}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                            <div className='form-group col-md-2'>
-                                <label htmlFor='inputProductPrice'>Precio unitario</label>
-                                <input
-                                    type='text'
-                                    className='form-control'
-                                    id='inputProductPrice'
-                                    name='productPrice'
-                                    value={'$ ' + state.product.price}
-                                    disabled
-                                />
-                            </div>
-                            <div className='form-group col-md-2'>
-                                <label htmlFor='inputQuantity'>Cantidad</label>
-                                <input
-                                    type='number'
-                                    className='form-control'
-                                    id='inputQuantity'
-                                    name='quantity'
-                                    value={state.quantity}
-                                    onChange={inputQuantityOnChange}
-                                />
-                            </div>
-                            <div className='form-group col-md-2'>
-                                <label htmlFor='inputTotalAmount'>Total en pesos</label>
-                                <input
-                                    type='text'
-                                    className='form-control'
-                                    id='inputTotalAmount'
-                                    name='totalAmount'
-                                    value={'$ ' + state.totalAmount}
-                                    onChange={inputAmountOnChange}
-                                    disabled
-                                />
-                            </div>
+                        <div className='form-group col-md-6'>
+                            <label htmlFor='inputClient'>Cliente</label>
+                            <select
+                                id='inputClient'
+                                className='form-control'
+                                name='client'
+                                onChange={inputClientOnChange}
+                                defaultValue='0'
+                                disabled={state.isClientSelected ? true : false}
+                            >
+                                <option value='0' disabled>Seleccionar cliente...</option>
+                                {clients.map((client) => {
+                                    return (
+                                        <option
+                                            key={client._id}
+                                            value={client._id}
+                                        >
+                                            {`${client.name} ${client.lastname}`}</option>
+                                    )
+                                })}
+                            </select>
                         </div>
-                        <button
-                            className='btn btn-secondary'
-                            onClick={addSale}
-                        >
-                            Agregar compra</button>
-                    </form>
-                </div>
+                    </div>
+                    <div className='form-row'>
+                        <div className='form-group col-md-6'>
+                            <label htmlFor='inputProduct'>Producto</label>
+                            <select
+                                id='inputProduct'
+                                className='form-control'
+                                name='productName'
+                                defaultValue='0'
+                                onChange={inputProductOnChange}
+                            >
+                                <option value='0' disabled>Seleccionar producto...</option>
+                                {products.map((product) => {
+                                    return (
+                                        <option
+                                            key={product._id}
+                                            value={product._id}
+                                        >
+                                            {`${product.name}`}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                        <div className='form-group col-md-2'>
+                            <label htmlFor='inputProductPrice'>Precio unitario</label>
+                            <input
+                                type='text'
+                                className='form-control'
+                                id='inputProductPrice'
+                                name='productPrice'
+                                value={'$ ' + state.product.price}
+                                disabled
+                            />
+                        </div>
+                        <div className='form-group col-md-2'>
+                            <label htmlFor='inputQuantity'>Cantidad</label>
+                            <input
+                                type='number'
+                                className='form-control'
+                                id='inputQuantity'
+                                name='quantity'
+                                value={state.quantity}
+                                onChange={inputQuantityOnChange}
+                            />
+                        </div>
+                        <div className='form-group col-md-2'>
+                            <label htmlFor='inputTotalAmount'>Total en pesos</label>
+                            <input
+                                type='text'
+                                className='form-control'
+                                id='inputTotalAmount'
+                                name='totalAmount'
+                                value={'$ ' + state.totalAmount}
+                                onChange={inputAmountOnChange}
+                                disabled
+                            />
+                        </div>
+                    </div>
+                    <button
+                        className='btn btn-secondary mr-1'
+                        onClick={addSale}
+                    >
+                        Agregar compra
+                    </button>
+                    <button
+                        className='btn btn-secondary animation-show'
+                        onClick={unlock}
+                        style={{ display: state.isClientSelected && state.isEmployeeSelected ? 'inline-block' : 'none' }}
+                    >
+                        Modificar
+                    </button>
+                </form>
             </div>
+        </div>
     )
 }
 
@@ -349,7 +382,8 @@ NewSale.defaultProps = {
     ],
     loadSale: (data) => {
         console.log(data)
-    }
+    },
+    deleteAll: () => console.log('deleteAll!')
 }
 
 export default NewSale;

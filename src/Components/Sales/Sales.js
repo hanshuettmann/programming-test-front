@@ -112,9 +112,7 @@ const Sales = () => {
         <div className='container mt-3 animation-show'>
             <NewSale
                 loadSale={handlerNewSale}
-                employees={state.employees}
-                clients={state.clients}
-                products={state.products}
+                deleteAll={handlerDeleteAll}
             />
             <SalesCart
                 sales={state.sales}
