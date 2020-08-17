@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import SalesCart from '../SalesCart/SalesCart';
 import NewSale from '../NewSale/NewSale';
+import generateBill from './../../Middleware/generateBill';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -117,6 +118,7 @@ const Sales = () => {
             }
             postSale(sale);
             handlerDeleteAll();
+            generateBill();
         }
     }
 
