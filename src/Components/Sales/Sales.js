@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import SalesCart from '../SalesCart/SalesCart';
 import NewSale from '../NewSale/NewSale';
-import generateBill from './../../Middleware/generateBill';
+import Bill from './../../Middleware/generateBill';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -124,7 +124,6 @@ const Sales = () => {
             }
             postSale(sale);
             handlerDeleteAll();
-            generateBill();
         }
     }
 
@@ -181,20 +180,24 @@ const Sales = () => {
 
     return (
         <div className='container mt-3 animation-show'>
-            <NewSale
-                loadSale={handlerNewSale}
-                deleteAll={handlerDeleteAll}
-                clients={state.clients}
-                products={state.products}
-                employees={state.employees}
-            />
-            <SalesCart
-                sales={state.sales}
-                deleteAll={handlerDeleteAll}
-                deleteOne={handlerDeleteOne}
-                confirmSale={handlerConfirmSale}
-                totalAmount={state.totalAmount}
-            />
+            {true ? <Bill /> :
+                <div>
+                    <NewSale
+                        loadSale={handlerNewSale}
+                        deleteAll={handlerDeleteAll}
+                        clients={state.clients}
+                        products={state.products}
+                        employees={state.employees}
+                    />
+                    <SalesCart
+                        sales={state.sales}
+                        deleteAll={handlerDeleteAll}
+                        deleteOne={handlerDeleteOne}
+                        confirmSale={handlerConfirmSale}
+                        totalAmount={state.totalAmount}
+                    />
+                </div>
+            }
         </div>
     )
 }
