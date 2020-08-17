@@ -6,6 +6,7 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'SET_SALE':
             return {
+                ...state,
                 sales: [
                     ...state.sales,
                     action.data
@@ -41,6 +42,11 @@ const reducer = (state, action) => {
                 ...state,
                 employees: action.data
             }
+        case 'SET_FETCH':
+            return {
+                ...state,
+                isFetch: true
+            }
         default:
             return state
     }
@@ -52,21 +58,29 @@ const Sales = () => {
         totalAmount: 0,
         clients: [],
         employees: [],
-        products: []
+        products: [],
+        isFetch: false
     });
 
     useEffect(() => {
+        if (!state.isFetch) {
+            fetchClients();
+            fetchProducts();
+            fetchEmployees();
+            console.log('fire!');
+            dispatch({ type: 'SET_FETCH' });
+        }
+
+        handlerSumTotal();
+    }, [state.sales]);
+
+    const handlerSumTotal = () => {
         let add = 0;
         for (let i = 0; i < state.sales.length; i++) {
             add += state.sales[i].totalAmount
         }
         dispatch({ type: 'SET_TOTAL', data: add });
-
-        fetchClients();
-        fetchProducts();
-        fetchEmployees();
-
-    }, [state.sales]);
+    }
 
     const handlerNewSale = (sale) => {
         dispatch({ type: 'SET_SALE', data: sale });
@@ -77,8 +91,30 @@ const Sales = () => {
     }
 
     const handlerConfirmSale = () => {
-        alert('Estás seguro que deseas confirmar la compra?')
-        console.log(state.sales);
+        if (window.confirm('Estás seguro que deseas confirmar la compra?')) {
+            // const sale = {
+            //     employee: {
+            //         name: state.sales.employee.name,
+            //         lastname: state.sales.employee.lastname,
+            //         idNumber: state.sales.employee.idNumber
+            //     },
+            //     client: {
+            //         name: state.sales.client.name,
+            //         lastname: state.sales.client.lastname,
+            //     }
+            // }
+            console.log(state.sales);
+        }
+        
+        // const response = await fetch('http://localhost:3000/products', {
+        //     method: 'POST',
+        //     body: JSON.stringify(product),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        // const res = await response.json();
+        // console.log(res);
     }
 
     const handlerDeleteOne = (e) => {
