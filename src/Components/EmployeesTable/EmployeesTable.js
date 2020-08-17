@@ -22,7 +22,10 @@ const EmployeesTable = ({ employees }) => {
                         {employees.length > 0 ?
                             employees.map((employee, index) => {
                                 return (
-                                    <tr key={employee._id}>
+                                    <tr
+                                        className='animation-show'
+                                        key={employee._id}
+                                    >
                                         <th scope='row'>{index + 1}</th>
                                         <td>{employee.name}</td>
                                         <td>{employee.lastname}</td>

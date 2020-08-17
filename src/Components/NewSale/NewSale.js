@@ -275,7 +275,7 @@ const NewSale = ({ clients, products, employees, loadSale, deleteAll }) => {
                     <button
                         className='btn btn-secondary animation-show'
                         onClick={unlock}
-                        style={{ display: state.isClientSelected && state.isEmployeeSelected ? 'inline-block' : 'none' }}
+                        disabled={state.isClientSelected && state.isEmployeeSelected ? false : true}
                     >
                         Modificar
                     </button>

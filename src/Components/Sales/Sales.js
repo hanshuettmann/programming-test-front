@@ -113,6 +113,9 @@ const Sales = () => {
             <NewSale
                 loadSale={handlerNewSale}
                 deleteAll={handlerDeleteAll}
+                clients={state.clients}
+                products={state.products}
+                employees={state.employees}
             />
             <SalesCart
                 sales={state.sales}
