@@ -24,6 +24,7 @@ const Navbar = () => {
                     <NavLink to='/products'><div className="nav-item nav-link">Productos</div></NavLink>
                     <NavLink to='/clients'><div className="nav-item nav-link">Clientes</div></NavLink>
                     <NavLink to='/employees'><div className="nav-item nav-link">Empleados</div></NavLink>
+                    <NavLink to='/history'><div className="nav-item nav-link">Historial</div></NavLink>
                 </div>
             </div>
         </nav>

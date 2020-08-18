@@ -155,10 +155,6 @@ const Sales = () => {
         return products;
     }
 
-    const addNewDate = () => {
-        return moment().format();
-    }
-
     const handlerDeleteOne = (e) => {
         const index = parseFloat(e.target.dataset.index);
         let sales = state.sales;
