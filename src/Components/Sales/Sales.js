@@ -65,6 +65,17 @@ const reducer = (state, action) => {
                 ...state,
                 hasFetchNewSale: !state.hasFetchNewSale
             }
+        case 'PRINT_BILL':
+            return {
+                ...state,
+                printBill: !state.printBill
+            }
+        case 'SET_POST_RESPONSE':
+            return {
+                ...state,
+                postSaleResponse: action.data,
+                printBill: true
+            }
         default:
             return state
     }
@@ -80,7 +91,9 @@ const Sales = () => {
         employees: [],
         products: [],
         isFetch: false,
-        hasFetchNewSale: true
+        hasFetchNewSale: true,
+        printBill: false,
+        postSaleResponse: {}
     });
     const componentRef = useRef();
 
@@ -127,7 +140,6 @@ const Sales = () => {
                 products: addProducts()
             }
             postSale(sale);
-            handlerDeleteAll();
         }
     }
 
@@ -184,47 +196,49 @@ const Sales = () => {
         });
         const res = await response.json();
         console.log(res);
+        dispatch({ type: 'SET_POST_RESPONSE', data: res });
+    }
+
+    const toggleBill = () => {
+        handlerDeleteAll();
+        dispatch({ type: 'PRINT_BILL' });
     }
 
     return (
         <div className='container mt-3 animation-show'>
-            <NewSale
-                loadSale={handlerNewSale}
-                deleteAll={handlerDeleteAll}
-                clients={state.clients}
-                products={state.products}
-                employees={state.employees}
-            />
-            <SalesCart
-                sales={state.sales}
-                deleteAll={handlerDeleteAll}
-                deleteOne={handlerDeleteOne}
-                confirmSale={handlerConfirmSale}
-                totalAmount={state.totalAmount}
-            />
-            {/* <Bill
-                ref={componentRef}
-                dataToPrint={
-                    {
-                        employee: {
-                            name: state.employeeSelected.name,
-                            lastname: state.employeeSelected.lastname,
-                            idNumber: state.employeeSelected.idNumber
-                        },
-                        client: {
-                            name: state.clientSelected.name,
-                            lastname: state.clientSelected.lastname,
-                        },
-                        products: state.sales,
-                        date: addNewDate(),
-                        totalAmount: state.totalAmount
-                    }
-                }
-            />
-            <ReactToPrint
-                trigger={() => <button className='btn btn-secondary'>Imprimir factura</button>}
-                content={() => componentRef.current}
-            /> */}
+            {state.printBill ?
+                <div>
+                    <Bill
+                        ref={componentRef}
+                        dataToPrint={state.postSaleResponse}
+                    />
+                    <ReactToPrint
+                        trigger={() => <button className='btn btn-secondary mt-3 mr-1'>Imprimir factura</button>}
+                        content={() => componentRef.current}
+                    />
+                    <button
+                        className='btn btn-secondary mt-3'
+                        onClick={toggleBill}
+                    >Nueva compra</button>
+                </div>
+                :
+                <div>
+                    <NewSale
+                        loadSale={handlerNewSale}
+                        deleteAll={handlerDeleteAll}
+                        clients={state.clients}
+                        products={state.products}
+                        employees={state.employees}
+                    />
+                    <SalesCart
+                        sales={state.sales}
+                        deleteAll={handlerDeleteAll}
+                        deleteOne={handlerDeleteOne}
+                        confirmSale={handlerConfirmSale}
+                        totalAmount={state.totalAmount}
+                    />
+                </div>
+            }
         </div>
     )
 }

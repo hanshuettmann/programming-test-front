@@ -1,11 +1,14 @@
 import React from 'react';
 
 class Bill extends React.Component {
+    componentDidUpdate(){
+        console.log(this.props.dataToPrint)
+    }
     render() {
         const { dataToPrint } = this.props;
         return (
             <div
-                className='container mt-5'
+                className='container mt-5 animation-show'
                 style={{
                     border: '1px dotted black',
                     padding: '2em 2em',
@@ -72,7 +75,6 @@ class Bill extends React.Component {
                                     <tr>
                                         <th scope='col'></th>
                                         <th scope='col'>Producto</th>
-                                        <th scope='col'>Marca</th>
                                         <th scope='col'>Cantidad</th>
                                         <th scope='col'>Subtotal</th>
                                     </tr>
@@ -84,10 +86,9 @@ class Bill extends React.Component {
                                                 className='animation-show table-alignment'
                                             >
                                                 <th scope='row'>{index + 1}</th>
-                                                <td>{item.product.name}</td>
-                                                <td>{item.product.brand}</td>
+                                                <td>{item.name}</td>
                                                 <td>{item.quantity}</td>
-                                                <td>{'$ ' + item.totalAmount}</td>
+                                                <td>{'$ ' + item.price * item.quantity}</td>
                                             </tr>
                                         )
                                     })}
