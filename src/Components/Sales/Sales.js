@@ -1,10 +1,13 @@
 import React, {
     useReducer,
-    useEffect
+    useEffect,
+    useRef
 } from 'react';
+import ReactToPrint from 'react-to-print';
+import moment from 'moment';
 import SalesCart from '../SalesCart/SalesCart';
 import NewSale from '../NewSale/NewSale';
-import Bill from './../../Middleware/generateBill';
+import Bill from '../Bill/Bill';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -79,6 +82,7 @@ const Sales = () => {
         isFetch: false,
         hasFetchNewSale: true
     });
+    const componentRef = useRef();
 
     useEffect(() => {
         if (!state.isFetch) {
@@ -139,6 +143,10 @@ const Sales = () => {
         return products;
     }
 
+    const addNewDate = () => {
+        return moment().format();
+    }
+
     const handlerDeleteOne = (e) => {
         const index = parseFloat(e.target.dataset.index);
         let sales = state.sales;
@@ -180,24 +188,43 @@ const Sales = () => {
 
     return (
         <div className='container mt-3 animation-show'>
-            {true ? <Bill /> :
-                <div>
-                    <NewSale
-                        loadSale={handlerNewSale}
-                        deleteAll={handlerDeleteAll}
-                        clients={state.clients}
-                        products={state.products}
-                        employees={state.employees}
-                    />
-                    <SalesCart
-                        sales={state.sales}
-                        deleteAll={handlerDeleteAll}
-                        deleteOne={handlerDeleteOne}
-                        confirmSale={handlerConfirmSale}
-                        totalAmount={state.totalAmount}
-                    />
-                </div>
-            }
+            <NewSale
+                loadSale={handlerNewSale}
+                deleteAll={handlerDeleteAll}
+                clients={state.clients}
+                products={state.products}
+                employees={state.employees}
+            />
+            <SalesCart
+                sales={state.sales}
+                deleteAll={handlerDeleteAll}
+                deleteOne={handlerDeleteOne}
+                confirmSale={handlerConfirmSale}
+                totalAmount={state.totalAmount}
+            />
+            {/* <Bill
+                ref={componentRef}
+                dataToPrint={
+                    {
+                        employee: {
+                            name: state.employeeSelected.name,
+                            lastname: state.employeeSelected.lastname,
+                            idNumber: state.employeeSelected.idNumber
+                        },
+                        client: {
+                            name: state.clientSelected.name,
+                            lastname: state.clientSelected.lastname,
+                        },
+                        products: state.sales,
+                        date: addNewDate(),
+                        totalAmount: state.totalAmount
+                    }
+                }
+            />
+            <ReactToPrint
+                trigger={() => <button className='btn btn-secondary'>Imprimir factura</button>}
+                content={() => componentRef.current}
+            /> */}
         </div>
     )
 }

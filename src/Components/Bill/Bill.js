@@ -1,28 +1,27 @@
-import React, { useRef } from 'react';
-import ReactToPrint from 'react-to-print';
+import React from 'react';
 
-class ComponentToPrint extends React.Component {
+class Bill extends React.Component {
     render() {
         const { dataToPrint } = this.props;
         return (
-            <div 
+            <div
                 className='container mt-5'
                 style={{
                     border: '1px dotted black',
                     padding: '2em 2em',
                     borderRadius: '0.5em'
                 }}
-                >
+            >
                 <div className='row'>
                     <div className='col-12 mb-4'>
                         <h1>Integra Media</h1>
                     </div>
-                    <div 
+                    <div
                         className='col-12 text-left'
                         style={{
                             padding: '0 30px'
                         }}
-                        >
+                    >
                         <form>
                             <div className='form-row'>
                                 <div className='form-group col-md-3'>
@@ -58,7 +57,7 @@ class ComponentToPrint extends React.Component {
                                         readOnly
                                         type='text'
                                         className='form-control'
-                                        value={dataToPrint.date.substr(0, 16)}
+                                        value={dataToPrint.date}
                                     />
                                 </div>
                             </div>
@@ -79,25 +78,19 @@ class ComponentToPrint extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {dataToPrint.products.length > 0 ?
-                                        dataToPrint.products.map((product, index) => {
-                                            return (
-                                                <tr key={index}
-                                                    className='animation-show table-alignment'
-                                                >
-                                                    <th scope='row'>{index + 1}</th>
-                                                    <td>{product.name}</td>
-                                                    <td>{product.brand}</td>
-                                                    <td>{product.quantity}</td>
-                                                    <td>{'$ ' + product.totalAmount}</td>
-                                                </tr>
-                                            )
-                                        })
-                                        : <tr className='animation-show'>
-                                            <td colSpan='7'>
-                                                Todavía no has agregado ninguna compra...
-                                </td>
-                                        </tr>}
+                                    {dataToPrint.products.map((item, index) => {
+                                        return (
+                                            <tr key={index}
+                                                className='animation-show table-alignment'
+                                            >
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.product.name}</td>
+                                                <td>{item.product.brand}</td>
+                                                <td>{item.quantity}</td>
+                                                <td>{'$ ' + item.totalAmount}</td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                             <div className='d-flex justify-content-end mb-2'>
@@ -121,54 +114,6 @@ class ComponentToPrint extends React.Component {
             </div>
         );
     }
-}
-
-const Bill = ({ sale }) => {
-    const componentRef = useRef();
-
-    return (
-        <div>
-            <ReactToPrint
-                trigger={() => <button className='btn btn-secondary'>Imprimir factura</button>}
-                content={() => componentRef.current}
-            />
-            <ComponentToPrint
-                ref={componentRef}
-                dataToPrint={{
-                    date: '2020-08-17T16:30:27.559+00:00',
-                    employee: {
-                        name: 'Hans',
-                        lastname: 'Hüttmann',
-                        idNumber: 123456
-                    },
-                    client: {
-                        name: 'Roberto',
-                        lastname: 'Gómez'
-                    },
-                    totalAmount: 800,
-                    products: [
-                        {
-                            name: 'Queso',
-                            price: 76,
-                            brand: 'Serenísima',
-                            quantity: 2,
-                            totalAmount: 76
-                        },
-                        {
-                            name: 'Alfajor',
-                            price: 30,
-                            brand: 'Jorgito',
-                            quantity: 5,
-                            totalAmount: 150
-                        }
-                    ]
-                }} />
-        </div>
-    );
-};
-
-Bill.defaultProps = {
-    elements: <h1>Hola Hans!</h1>
 }
 
 export default Bill;
